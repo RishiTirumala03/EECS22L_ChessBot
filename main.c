@@ -4,6 +4,31 @@
 #include "ChessGPT.h"
 #include <ctype.h>
 #include <stdbool.h>
+
+//game menu
+void printMenu(){
+    printf("\t\t\t\tChess\n");
+	printf("Main Menu:\n");
+	printf("\t1. Start Game\n");
+	printf("\t2. Log file\n");
+	printf("\t3. Rules of Chess\n");
+	printf("\t4. Exit program\n");
+	printf("Enter an option: ");
+}
+
+//start game
+void subMenu(){
+    //the sub-menu before entering the game
+
+    int chooseMode;// 1 for pvp, 2 for pve
+    int chooseColor;// 1 for white, 2 for black **implement later
+    
+
+
+
+}
+
+
 void initializeBoard(struct Square gameBoard[8][8]){
     // Set each square's position
     for(int i = 0;i<8;i++){
@@ -952,7 +977,8 @@ bool isStalemate(struct Square gameBoard[8][8], int currColor) {
     // If we've reached here, there are no legal moves and the player is not in check
     return true;
 }
-int main(int argc, const char * argv[]) {
+
+int startGame() {
     struct Square board[8][8];
     struct Square backupBoard[8][8];
     initializeBoard(board);
@@ -1031,4 +1057,42 @@ int main(int argc, const char * argv[]) {
         currColor = 1 - currColor; // Switch player after a valid move
     }
     return 0;
+}
+
+int main(int argc, const char * argv[]) {
+
+
+
+    int menuInput;
+    char menuStatus = 1;
+
+    while (menuStatus == 1){
+        printMenu();
+        scanf("%d", &menuInput);
+        getchar();
+        switch(menuInput){
+            case 1://start game
+                startGame();
+                break;
+
+            case 2:
+                printf("Not implemented yet :(\n");
+				break;
+
+            case 3:
+                printf("Not implemented yet :(\n");
+				break;
+
+            case 4:
+                menuStatus = 0;
+                break;
+            
+            default:
+                printf("Invalid Input!\n\n");
+				break;
+        }
+        
+    } 
+
+    //return 0;
 }
