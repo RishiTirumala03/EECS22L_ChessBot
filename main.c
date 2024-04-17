@@ -7,7 +7,7 @@
 
 //game menu
 void printMenu(){
-    printf("\t\t\t\tChess\n");
+    printf("\t\t\t\tChessGPT V1.0\n");
 	printf("Main Menu:\n");
 	printf("\t1. Start Game\n");
 	printf("\t2. Log file\n");
