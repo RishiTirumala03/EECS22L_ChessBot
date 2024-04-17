@@ -20,8 +20,11 @@ void printMenu(){
 void subMenu(){
     //the sub-menu before entering the game
 
-    int chooseMode;// 1 for pvp, 2 for pve
-    int chooseColor;// 1 for white, 2 for black **implement later
+    //int chooseMode;
+    // 1 for pvp, 2 for pve
+    //int chooseColor;
+    // 1 for white, 2 for black **implement later
+    //int difficulty;
     
 
 
@@ -1075,15 +1078,15 @@ int main(int argc, const char * argv[]) {
                 startGame();
                 break;
 
-            case 2:
+            case 2://log
                 printf("Not implemented yet :(\n");
 				break;
 
-            case 3:
+            case 3://chess rule
                 printf("Not implemented yet :(\n");
 				break;
 
-            case 4:
+            case 4://quit
                 menuStatus = 0;
                 break;
             
