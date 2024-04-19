@@ -13,4 +13,4 @@ clean:
 
 #Target for Chess
 Chess: main.c ChessGPT.h
-	$(CC) $(CFLAGS) main.c -o Chess
+	$(CC) $(LFLAGS) main.c -o Chess
