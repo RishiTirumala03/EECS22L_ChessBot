@@ -7,10 +7,18 @@ LFLAGS = -Wall -std=c11 $(DEBUG)
 Mathlib = -lm
 
 #default target
-all: Chess
+all: ChessGPT
 clean:
-	rm -f Chess
+	rm -f ChessGPT
+	rm -f *.o
 
-#Target for Chess
-Chess: main.c ChessGPT.h
-	$(CC) $(LFLAGS) main.c -o Chess
+#Target for ChessGPT
+
+game.o: game.c game.h struct.h
+	$(CC) $(CFLAGS) game.c -o game.o
+chess.o: chess.c game.h struct.h
+	$(CC) $(CFLAGS) chess.c -o chess.o
+
+
+ChessGPT: chess.o game.o
+	$(CC) $(LFLAGS)  chess.o game.o -o ChessGPT
