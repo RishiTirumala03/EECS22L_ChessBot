@@ -50,13 +50,13 @@ int main(int argc, const char * argv[]) {
                     if(outOfCheck(board, move1, currColor)){ // Test if player move removes check
                         makeMove(board, move1, currColor);
                         printBoard(board);
-                        printf("Do you want to redo this move? (yes/no): ");
+                        printf("Do you want to undo this move? (yes/no): ");
                         fgets(redoChoice, sizeof(redoChoice), stdin);
                         redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
 			redoChoice[strcspn(redoChoice, "\r")] = '\0';
                         if (strcmp(redoChoice, "yes") == 0) {
                             deepCopyBoard(backupBoard, board); // Restore the backup
-                            printf("Redoing the move...\n");
+                            printf("<Undoing the move...\n");
                             printBoard(board);
                             continue; // Skip changing the player
                         }
@@ -80,14 +80,14 @@ int main(int argc, const char * argv[]) {
                 if(isValidMove(board, move1, currColor)){
                     makeMove(board, move1, currColor);
                     printBoard(board);
-                    printf("Do you want to redo this move? (yes/no): ");
+                    printf("Do you want to undo this move? (yes/no): ");
                     fgets(redoChoice, sizeof(redoChoice), stdin);
                     redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
 			redoChoice[strcspn(redoChoice, "\r")] = '\0'; // Remove newline character
 
                     if (strcmp(redoChoice, "yes") == 0) {
                         deepCopyBoard(backupBoard, board); // Restore the backup
-                        printf("Redoing the move...\n");
+                        printf("Undoing the move...\n");
                         printBoard(board);
                         continue; // Skip changing the player
                     }
