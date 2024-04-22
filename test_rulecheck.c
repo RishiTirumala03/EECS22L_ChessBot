@@ -8,126 +8,43 @@
 
 int main(int argc, const char * argv[]) {
 
-    
-    	/**
-	printf("This is Testing mode\n");
-	freopen("input_TEST.txt", "r", stdin);
-	**/
-    
-    struct Square board[8][8];
-    struct Square backupBoard[8][8];
-    initializeBoard(board);
-    printBoard(board);
-    printf("\nWelcome to Chess! Currently, there is only a 2 person option for playing.\n");
-    printf("White pieces will be specified with upper case characters,\nwhile black pieces will be specified with lower case characters.\n");
-    printf("Move notation will be specified by starting square then destination square (ex. a2a4)\n");
-    bool checkMate = false;
-    struct Move *move1 = malloc(sizeof(struct Move));
-    int currColor = 0;
-    char redoChoice[10]; // Buffer for redo input
-	int exit_V = 0;    
-
-	char input_string[4][10];
+/**
+	char input_string[100][10];
 	strcpy(input_string[0],"a2a4");
 	strcpy(input_string[1],"no");
-	strcpy(input_string[2],"e7e5");
-	strcpy(input_string[3],"exit");
+	strcpy(input_string[2],"back");
+**/
+	printf("testing chess program rule with a classic chess game.\n");
+	int counter = 0;
+	char input_string[100][10];
+	counter = addMove(input_string,counter,"e2e4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"e7e5");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"d2d4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"d7d6");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"f2f4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"e5f4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"e4e5");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"g8f6");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"f1d3");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"d6e5");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"d3e4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"f6e4");
+	counter = addMove(input_string,counter,"no");
+	counter = addMove(input_string,counter,"back");
+	startGame_TEST(0,input_string);
 
-	int input_pointer = 0;
+    return 0;
 
-	printf("This is Test_rulecheck\n");
-    while(!checkMate){
-        if(isStalemate(board, currColor)) {
-            printf("Stalemate! Ending Game.\n");
-            break;
-        }
-
-        deepCopyBoard(board, backupBoard); // Backup the board before the move
-
-        if(possibleCheck(board, currColor)){ // First check for check
-            printf("Player is in Check!\n");
-            if(!canEscapeCheck(board, currColor)){ // No escape; game over
-                printf("Checkmate!! Game Over!\n");
-                checkMate = true;
-                break;
-            }
-            else{
-                bool check = false;
-                while(!check){
-                    printBoard(board);
-                    getPlayerMove_TEST(move1,input_string[input_pointer]);
-			input_pointer++;
-                    if(outOfCheck(board, move1, currColor)){ // Test if player move removes check
-                        makeMove(board, move1, currColor);
-                        printBoard(board);
-                        printf("Do you want to redo this move? (yes/no): ");
-                        //fgets(redoChoice, sizeof(redoChoice), stdin);
-			strcpy(redoChoice,input_string[input_pointer]);
-			input_pointer++;
-                        redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
-			redoChoice[strcspn(redoChoice, "\r")] = '\0';
-                        if (strcmp(redoChoice, "yes") == 0) {
-                            deepCopyBoard(backupBoard, board); // Restore the backup
-                            printf("Redoing the move...\n");
-                            printBoard(board);
-                            continue; // Skip changing the player
-                        }
-			if (strcmp(redoChoice,"exit")==0){
-                           exit_V = 1;
-			   printf("exiting..\n");
-      			   break;
-			}
-                        check = true;
-                    }
-                    else{
-                        printf("Try again!\n"); // Redo loop if not out of check
-                    }
-                }
-            }
-        }
-        else{
-            bool invalidMove = false;
-            while(!invalidMove){
-                getPlayerMove_TEST(move1,input_string[input_pointer]);
-			input_pointer++;
-
-                if(isValidMove(board, move1, currColor)){
-                    makeMove(board, move1, currColor);
-                    printBoard(board);
-                    printf("Do you want to redo this move? (yes/no): ");
-                    //fgets(redoChoice, sizeof(redoChoice), stdin);
-			strcpy(redoChoice,input_string[input_pointer]);
-			input_pointer++;
-
-                    redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
-			redoChoice[strcspn(redoChoice, "\r")] = '\0'; // Remove newline character
-
-                    if (strcmp(redoChoice, "yes") == 0) {
-                        deepCopyBoard(backupBoard, board); // Restore the backup
-                        printf("Redoing the move...\n");
-                        printBoard(board);
-                        continue; // Skip changing the player
-                    }
-                   if (strcmp(redoChoice,"exit")==0){
-                           exit_V = 1;
-                           printf("exiting..\n");
-                           break;
-                        }
-
-                   invalidMove = true;
-                }
-                else{
-                    printf("Invalid Move! Try again!\n");
-                }
-            }
-        }
-        if(exit_V==1){
-		break;
-	}
-        currColor = 1 - currColor; // Switch player after a valid move
-    }
-
-
-   
-	return 0;
+    
 }

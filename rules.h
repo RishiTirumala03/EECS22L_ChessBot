@@ -34,6 +34,7 @@ bool isValidMoveFormat(const char *input);
 void getPlayerMove(struct Move *move);
 void getPlayerMove_TEST(struct Move *move, char *input);
 int getPlayerMove_rint(struct Move *move);
+int getPlayerMove_rint_TEST(struct Move *move, char *input);
 int getPromotionChoice();
 void makeMove(struct Square gameBoard[8][8], struct Move *move, int currColor);
 bool isValidBishopMove(struct Square gameBoard[8][8], const struct Move *move);
@@ -59,9 +60,11 @@ bool canEscapeCheck(struct Square gameBoard[8][8], int currColor);
 bool outOfCheck(struct Square gameBoard[8][8],struct Move *move,int currColor);
 
 int startGame(int gameMode);
+int startGame_TEST(int gameMode, char input_string[100][10]);
 bool redoMovePVE(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer);
 bool redoMovePVP(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer);
+bool redoMovePVP_TEST(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer,char *redoChoice);
 void printMenu();
-
+int addMove(char input_string[100][10], int counter, char *input);
 #endif 
 

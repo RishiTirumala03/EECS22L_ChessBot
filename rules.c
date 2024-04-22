@@ -258,8 +258,30 @@ int getPlayerMove_rint(struct Move *move) {
     move->initialRow = '8' - input[1];
     move->destinationCol = input[2] - 'a';
     move->destinationRow = '8' - input[3];
-	return 0;
+	return result;
 }
+
+int getPlayerMove_rint_TEST(struct Move *move, char *input) {
+    int result = 0;
+   do {
+	printf("\nInputing: %s",input);
+        input[strcspn(input, "\n")] = '\0'; // Remove trailing newline, if present(i have no clue how it works stack exchange )
+	input[strcspn(input,"\r")] = '\0';
+	if(strcmp(input,"back")==0){
+	result = 1;
+	return result;
+	}
+    } while (!isValidMoveFormat(input));
+
+
+    // Assuming valid input, now parse into the move structure
+    move->initialCol = input[0] - 'a';
+    move->initialRow = '8' - input[1];
+    move->destinationCol = input[2] - 'a';
+    move->destinationRow = '8' - input[3];
+	return result;
+}
+
 
 bool isValidBishopMove(struct Square gameBoard[8][8], const struct Move *move) {
     int startRow = move->initialRow;
@@ -1113,6 +1135,57 @@ int startGame(int gameMode) { // gameMode 0 for PVP, 1 for PVE
     return 0;
 }
 
+int startGame_TEST(int gameMode, char input_string[100][10]) { // gameMode 0 for PVP, 1 for PVE
+    struct Square board[8][8];
+    struct Square backupBoard[8][8];
+    initializeBoard(board);
+    printBoard(board);
+    bool checkMate = false;
+    struct Move *move = malloc(sizeof(struct Move));
+    int currColor = 0; // 0 for white, 1 for black
+    int Exit_V = 0;
+    int input_counter = 0;
+
+    while (!checkMate) {
+        if (isStalemate(board, currColor)) {
+            printf("Stalemate! Ending Game.\n");
+            break;
+        }
+
+        deepCopyBoard(board, backupBoard); // Backup the board before the move
+
+        if (possibleCheck(board, currColor)) {
+            printf("Player %d is in Check!\n", currColor + 1);
+            if (!canEscapeCheck(board, currColor)) {
+                printf("Checkmate!! Game Over!\n");
+                checkMate = true;
+                break;
+            }
+        }
+
+        Exit_V=getPlayerMove_rint_TEST(move,input_string[input_counter]);
+	input_counter++;
+	if(Exit_V==1){
+	break;
+	}
+        makeMove(board, move, currColor);
+        printBoard(board);
+
+        // Redo Logic Depending on Mode
+        bool redo = false;
+            redo = redoMovePVP_TEST(board, backupBoard, currColor,input_string[input_counter]);
+		input_counter++;
+      
+        if (!redo) {
+            currColor = 1 - currColor; // Switch player
+        }
+    }
+
+    free(move);
+    return 0;
+}
+
+
 bool redoMovePVE(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer) {
     if (currentPlayer == 1) { // Assuming Player is always 1 and Computer is 0
         char redoChoice[10]; // Buffer for redo input
@@ -1154,6 +1227,34 @@ bool redoMovePVP(struct Square board[8][8], struct Square backupBoard[8][8], int
     return false;
 }
 
+bool redoMovePVP_TEST(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer,char *redoChoice){
+    //char redoChoice[10];  Buffer for redo input
+    printf("Player %d, do you want to redo your last move? (yes/no): ", currentPlayer);
+    //fgets(redoChoice, sizeof(redoChoice), stdin);
+    redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
+	printf("player input: %s",redoChoice);
+
+    if (strcmp(redoChoice, "yes") == 0) {
+        int opponent = 1 - currentPlayer;
+        printf("Player %d, do you agree to allow a redo? (yes/no): ", opponent);
+        fgets(redoChoice, sizeof(redoChoice), stdin);
+        redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
+
+        if (strcmp(redoChoice, "yes") == 0) {
+            deepCopyBoard(backupBoard, board); // Restore the backup
+            printf("Both players agreed. Redoing the move...\n");
+            printBoard(board);
+            return true;
+        } else {
+            printf("Redo not agreed. Continuing...\n");
+        }
+    }
+    return false;
+}
+
+
+
+
 void printMenu(){
 	printf("\t\t\t\tChessGPT V1.0\n");
 	printf("Main Menu:\n");
@@ -1163,3 +1264,9 @@ void printMenu(){
 	printf("\t4. Exit program\n");
 	printf("Enter an option: ");
 }
+
+int addMove(char input_string[100][10], int counter, char *input){
+		int result = counter+1;
+		strcpy(input_string[counter],input);
+		return result;
+	}
