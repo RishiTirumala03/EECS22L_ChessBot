@@ -237,6 +237,30 @@ void getPlayerMove_TEST(struct Move *move, char *input){
     move->destinationRow = '8' - input[3];
 
 }
+
+int getPlayerMove_rint(struct Move *move) {
+    char input[10]; // Buffer for input string
+	int result = 0;
+    do {
+        printf("Enter your move (e.g., e2e4): ");
+        fgets(input, sizeof(input), stdin); //
+
+        input[strcspn(input, "\n")] = '\0'; // Remove trailing newline, if present(i have no clue how it works stack exchange )
+	input[strcspn(input,"\r")] = '\0';
+	if(strcmp(input,"back")==0){
+	result = 1;
+	return result;
+	}
+    } while (!isValidMoveFormat(input));
+
+    // Assuming valid input, now parse into the move structure
+    move->initialCol = input[0] - 'a';
+    move->initialRow = '8' - input[1];
+    move->destinationCol = input[2] - 'a';
+    move->destinationRow = '8' - input[3];
+	return 0;
+}
+
 bool isValidBishopMove(struct Square gameBoard[8][8], const struct Move *move) {
     int startRow = move->initialRow;
     int startCol = move->initialCol;
@@ -1046,6 +1070,7 @@ int startGame(int gameMode) { // gameMode 0 for PVP, 1 for PVE
     bool checkMate = false;
     struct Move *move = malloc(sizeof(struct Move));
     int currColor = 0; // 0 for white, 1 for black
+	int Exit_V = 0;
 
     while (!checkMate) {
         if (isStalemate(board, currColor)) {
@@ -1064,7 +1089,10 @@ int startGame(int gameMode) { // gameMode 0 for PVP, 1 for PVE
             }
         }
 
-        getPlayerMove(move);
+        Exit_V=getPlayerMove_rint(move);
+	if(Exit_V==1){
+	break;
+	}
         makeMove(board, move, currColor);
         printBoard(board);
 

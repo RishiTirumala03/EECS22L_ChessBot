@@ -33,6 +33,7 @@ bool isValidMove(struct Square gameBoard[8][8], const struct Move *move, int cur
 bool isValidMoveFormat(const char *input);
 void getPlayerMove(struct Move *move);
 void getPlayerMove_TEST(struct Move *move, char *input);
+int getPlayerMove_rint(struct Move *move);
 int getPromotionChoice();
 void makeMove(struct Square gameBoard[8][8], struct Move *move, int currColor);
 bool isValidBishopMove(struct Square gameBoard[8][8], const struct Move *move);
