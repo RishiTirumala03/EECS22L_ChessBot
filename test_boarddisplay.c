@@ -9,10 +9,10 @@
 int main(int argc, const char * argv[]) {
 
     
-    	
+    	/**
 	printf("This is Testing mode\n");
 	freopen("input_TEST.txt", "r", stdin);
-	
+	**/
     
     struct Square board[8][8];
     struct Square backupBoard[8][8];
@@ -25,8 +25,17 @@ int main(int argc, const char * argv[]) {
     struct Move *move1 = malloc(sizeof(struct Move));
     int currColor = 0;
     char redoChoice[10]; // Buffer for redo input
-    int exit_V = 0;
+	int exit_V = 0;    
 
+	char input_string[4][10];
+	strcpy(input_string[0],"a2a4");
+	strcpy(input_string[1],"no");
+	strcpy(input_string[2],"e7e5");
+	strcpy(input_string[3],"exit");
+
+	int input_pointer = 0;
+
+	printf("This is Test_rulecheck\n");
     while(!checkMate){
         if(isStalemate(board, currColor)) {
             printf("Stalemate! Ending Game.\n");
@@ -46,12 +55,15 @@ int main(int argc, const char * argv[]) {
                 bool check = false;
                 while(!check){
                     printBoard(board);
-                    getPlayerMove(move1);
+                    getPlayerMove_TEST(move1,input_string[input_pointer]);
+			input_pointer++;
                     if(outOfCheck(board, move1, currColor)){ // Test if player move removes check
                         makeMove(board, move1, currColor);
                         printBoard(board);
                         printf("Do you want to redo this move? (yes/no): ");
-                        fgets(redoChoice, sizeof(redoChoice), stdin);
+                        //fgets(redoChoice, sizeof(redoChoice), stdin);
+			strcpy(redoChoice,input_string[input_pointer]);
+			input_pointer++;
                         redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
 			redoChoice[strcspn(redoChoice, "\r")] = '\0';
                         if (strcmp(redoChoice, "yes") == 0) {
@@ -76,12 +88,17 @@ int main(int argc, const char * argv[]) {
         else{
             bool invalidMove = false;
             while(!invalidMove){
-                getPlayerMove(move1);
+                getPlayerMove_TEST(move1,input_string[input_pointer]);
+			input_pointer++;
+
                 if(isValidMove(board, move1, currColor)){
                     makeMove(board, move1, currColor);
                     printBoard(board);
                     printf("Do you want to redo this move? (yes/no): ");
-                    fgets(redoChoice, sizeof(redoChoice), stdin);
+                    //fgets(redoChoice, sizeof(redoChoice), stdin);
+			strcpy(redoChoice,input_string[input_pointer]);
+			input_pointer++;
+
                     redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
 			redoChoice[strcspn(redoChoice, "\r")] = '\0'; // Remove newline character
 
@@ -114,4 +131,3 @@ int main(int argc, const char * argv[]) {
    
 	return 0;
 }
-

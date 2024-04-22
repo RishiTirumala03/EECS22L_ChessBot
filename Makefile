@@ -6,12 +6,13 @@ LFLAGS = -Wall -std=c11 $(DEBUG)
 #TEST = -DTEST_MODE
 
 #default target
-all: Chess test_rulecheck
-test: test_rulecheck
+all: Chess test_rulecheck test_boarddisplay
+test: test_rulecheck test_boarddisplay
 clean:
 	rm -f Chess
 	rm -f Test_rulecheck
 	rm -f *.o
+	rm -f Test_boarddisplay
 
 
 #specific target
@@ -24,6 +25,9 @@ chess.o: chess.c rules.h struct.h
 	$(CC) $(CFLAGS) chess.c -o chess.o
 test_rulecheck.o: test_rulecheck.c rules.h struct.h
 	$(CC) $(CFLAGS) test_rulecheck.c -o test_rulecheck.o
+test_boarddisplay.o: test_boarddisplay.c rules.h struct.h
+	$(CC) $(CFLAGS) test_boarddisplay.c -o test_boarddisplay.o
+
 
 
 
@@ -33,3 +37,7 @@ Chess: chess.o rules.o
 
 test_rulecheck: test_rulecheck.o rules.o
 	$(CC) $(LFLAGS)  test_rulecheck.o rules.o -o Test_rulecheck
+
+test_boarddisplay: test_boarddisplay.o rules.o
+	$(CC) $(LFLAGS)  test_boarddisplay.o rules.o -o Test_boarddisplay
+
