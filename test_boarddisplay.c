@@ -8,12 +8,12 @@
 
 int main(int argc, const char * argv[]) {
 
-/**    
-    	#ifdef TEST_MODE
+    
+    	
 	printf("This is Testing mode\n");
 	freopen("input_TEST.txt", "r", stdin);
-	#endif
-**/ 
+	
+    
     struct Square board[8][8];
     struct Square backupBoard[8][8];
     initializeBoard(board);
@@ -114,3 +114,4 @@ int main(int argc, const char * argv[]) {
    
 	return 0;
 }
+
