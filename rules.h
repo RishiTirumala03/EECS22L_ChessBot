@@ -57,6 +57,10 @@ void generateLegalMoves(struct Square gameBoard[8][8], int startRow, int startCo
 bool canEscapeCheck(struct Square gameBoard[8][8], int currColor);
 bool outOfCheck(struct Square gameBoard[8][8],struct Move *move,int currColor);
 
+int startGame(int gameMode);
+bool redoMovePVE(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer);
+bool redoMovePVP(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer);
+void printMenu();
 
 #endif 
 

@@ -10,9 +10,9 @@ all: Chess test_rulecheck test_boarddisplay
 test: test_rulecheck test_boarddisplay
 clean:
 	rm -f Chess
-	rm -f Test_rulecheck
+	rm -f test_rulecheck
 	rm -f *.o
-	rm -f Test_boarddisplay
+	rm -f test_boarddisplay
 
 
 #specific target
@@ -36,8 +36,8 @@ Chess: chess.o rules.o
 
 
 test_rulecheck: test_rulecheck.o rules.o
-	$(CC) $(LFLAGS)  test_rulecheck.o rules.o -o Test_rulecheck
+	$(CC) $(LFLAGS)  test_rulecheck.o rules.o -o test_rulecheck
 
 test_boarddisplay: test_boarddisplay.o rules.o
-	$(CC) $(LFLAGS)  test_boarddisplay.o rules.o -o Test_boarddisplay
+	$(CC) $(LFLAGS)  test_boarddisplay.o rules.o -o test_boarddisplay
 

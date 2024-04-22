@@ -1038,3 +1038,100 @@ bool isStalemate(struct Square gameBoard[8][8], int currColor) {
     return true;
 }
 
+int startGame(int gameMode) { // gameMode 0 for PVP, 1 for PVE
+    struct Square board[8][8];
+    struct Square backupBoard[8][8];
+    initializeBoard(board);
+    printBoard(board);
+    bool checkMate = false;
+    struct Move *move = malloc(sizeof(struct Move));
+    int currColor = 0; // 0 for white, 1 for black
+
+    while (!checkMate) {
+        if (isStalemate(board, currColor)) {
+            printf("Stalemate! Ending Game.\n");
+            break;
+        }
+
+        deepCopyBoard(board, backupBoard); // Backup the board before the move
+
+        if (possibleCheck(board, currColor)) {
+            printf("Player %d is in Check!\n", currColor + 1);
+            if (!canEscapeCheck(board, currColor)) {
+                printf("Checkmate!! Game Over!\n");
+                checkMate = true;
+                break;
+            }
+        }
+
+        getPlayerMove(move);
+        makeMove(board, move, currColor);
+        printBoard(board);
+
+        // Redo Logic Depending on Mode
+        bool redo = false;
+        if (gameMode == 0) {
+            redo = redoMovePVP(board, backupBoard, currColor);
+        } else if (gameMode == 1) {
+            redo = redoMovePVE(board, backupBoard, currColor);
+        }
+
+        if (!redo) {
+            currColor = 1 - currColor; // Switch player
+        }
+    }
+
+    free(move);
+    return 0;
+}
+
+bool redoMovePVE(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer) {
+    if (currentPlayer == 1) { // Assuming Player is always 1 and Computer is 0
+        char redoChoice[10]; // Buffer for redo input
+        printf("Do you want to redo your last move? (yes/no): ");
+        fgets(redoChoice, sizeof(redoChoice), stdin);
+        redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
+
+        if (strcmp(redoChoice, "yes") == 0) {
+            deepCopyBoard(backupBoard, board); // Restore the backup
+            printf("Redoing the move...\n");
+            printBoard(board);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool redoMovePVP(struct Square board[8][8], struct Square backupBoard[8][8], int currentPlayer) {
+    char redoChoice[10]; // Buffer for redo input
+    printf("Player %d, do you want to redo your last move? (yes/no): ", currentPlayer);
+    fgets(redoChoice, sizeof(redoChoice), stdin);
+    redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
+
+    if (strcmp(redoChoice, "yes") == 0) {
+        int opponent = 1 - currentPlayer;
+        printf("Player %d, do you agree to allow a redo? (yes/no): ", opponent);
+        fgets(redoChoice, sizeof(redoChoice), stdin);
+        redoChoice[strcspn(redoChoice, "\n")] = '\0'; // Remove newline character
+
+        if (strcmp(redoChoice, "yes") == 0) {
+            deepCopyBoard(backupBoard, board); // Restore the backup
+            printf("Both players agreed. Redoing the move...\n");
+            printBoard(board);
+            return true;
+        } else {
+            printf("Redo not agreed. Continuing...\n");
+        }
+    }
+    return false;
+}
+
+void printMenu(){
+	printf("\t\t\t\tChessGPT V1.0\n");
+	printf("Main Menu:\n");
+	printf("\t1. Start Game\n");
+	printf("\t2. Log file\n");
+	printf("\t3. Rules of Chess\n");
+	printf("\t4. Exit program\n");
+	printf("Enter an option: ");
+}

@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+
 int main(int argc, const char * argv[]) {
 
 /**    
@@ -13,7 +14,9 @@ int main(int argc, const char * argv[]) {
 	printf("This is Testing mode\n");
 	freopen("input_TEST.txt", "r", stdin);
 	#endif
-**/ 
+**/
+
+/** 
     struct Square board[8][8];
     struct Square backupBoard[8][8];
     initializeBoard(board);
@@ -110,7 +113,57 @@ int main(int argc, const char * argv[]) {
         currColor = 1 - currColor; // Switch player after a valid move
     }
 
-
-   
+ 
 	return 0;
+
+
+**/
+
+    int menuInput, gameMode;
+    char menuStatus = 1;
+
+    while (menuStatus == 1) {
+        printMenu();
+        scanf("%d", &menuInput);
+        getchar(); // Consume the newline character left in the input buffer
+
+        switch (menuInput) {
+            case 1: // Start game
+                printf("Select Game Mode:\n");
+                printf("1. Player vs Player (PVP)\n");
+                printf("2. Player vs Environment (PVE)\n");
+                printf("Enter your choice (1 or 2): ");
+                scanf("%d", &gameMode);
+                getchar(); // Consume the newline character left in the input buffer
+
+                if (gameMode == 1) {
+                    startGame(0); // Start game in PVP mode
+                } else if (gameMode == 2) {
+                    startGame(1); // Start game in PVE mode
+                } else {
+                    printf("Invalid game mode selection!\n");
+                }
+                break;
+
+            case 2: // Log
+                printf("Not implemented yet :(\n");
+                break;
+
+            case 3: // Chess rules
+                printf("Not implemented yet :(\n");
+                break;
+
+            case 4: // Quit
+                menuStatus = 0;
+                break;
+
+            default:
+                printf("Invalid Input! Please enter a number between 1 and 4.\n\n");
+                break;
+        }
+    }
+
+    return 0;
+
+
 }
