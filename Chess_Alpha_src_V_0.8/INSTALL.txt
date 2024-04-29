@@ -1,0 +1,7 @@
+INSTALLATION GUIDE
+1. Download Chess_Alpha_src.tar.gz
+2. Use command "tar -xvzf Chess_Alpha_src.tar.gz"
+3. Use command "cd Chess_Alpha_src.tar.gz"
+4. Use command "make"
+5. Use command "cd bin"
+6. Use command "./chess"
